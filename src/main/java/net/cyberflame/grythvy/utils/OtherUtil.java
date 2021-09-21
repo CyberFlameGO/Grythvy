@@ -130,7 +130,7 @@ public class OtherUtil
         OnlineStatus st = OnlineStatus.fromKey(status);
         return st == null ? OnlineStatus.ONLINE : st;
     }
-    
+/*
     public static String checkVersion(Prompt prompt)
     {
         // Get current version number
@@ -147,6 +147,8 @@ public class OtherUtil
         // Return the current version
         return version;
     }
+
+ */
     
     public static String getCurrentVersion()
     {

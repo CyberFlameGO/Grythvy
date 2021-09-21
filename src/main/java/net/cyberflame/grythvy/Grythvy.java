@@ -44,7 +44,7 @@ public class Grythvy
         Prompt prompt = new Prompt("Grythvy", "Switching to nogui mode. You can manually start in nogui mode by including the -Dnogui=true flag.");
         
         // get and check latest version
-        String version = OtherUtil.checkVersion(prompt);
+//        String version = OtherUtil.checkVersion(prompt);
         
         // check for valid java version
         if(!System.getProperty("java.vm.name").contains("64"))
@@ -60,14 +60,7 @@ public class Grythvy
         EventWaiter waiter = new EventWaiter();
         SettingsManager settings = new SettingsManager();
         Bot bot = new Bot(waiter, config, settings);
-        
-        AboutCommand aboutCommand = new AboutCommand(Color.BLUE.brighter(),
-                                "a music bot that is cool",
-                                new String[]{"Good quality", "Lyrics", "Cool"},
-                                RECOMMENDED_PERMS);
-        aboutCommand.setIsAuthor(false);
-        aboutCommand.setReplacementCharacter("\uD83C\uDFB6"); // 🎶
-        
+
         // set up the command client
         CommandClientBuilder cb = new CommandClientBuilder()
                 .setPrefix(config.getPrefix())
@@ -77,7 +70,7 @@ public class Grythvy
                 .setHelpWord(config.getHelp())
                 .setLinkedCacheSize(200)
                 .setGuildSettingsManager(settings)
-                .addCommands(aboutCommand,
+                .addCommands(
                         new PingCommand(),
                         new SettingsCmd(bot),
                         
