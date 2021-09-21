@@ -1,4 +1,3 @@
-<!-- author: Kaidan Gustave -->
 <configuration>
 
     <appender name="Simple" class="ch.qos.logback.core.ConsoleAppender">

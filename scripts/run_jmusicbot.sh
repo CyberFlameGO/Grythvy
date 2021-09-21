@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This will have this script check for a new version of JMusicBot every
+# This will have this script check for a new version of Grythvy every
 # startup (and download it if the latest version isn't currently downloaded)
 DOWNLOAD=true
 
