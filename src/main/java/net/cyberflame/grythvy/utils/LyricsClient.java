@@ -17,7 +17,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
-import org.jsoup.safety.Whitelist;
 
 public class LyricsClient
 {

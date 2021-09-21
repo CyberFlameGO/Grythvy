@@ -214,7 +214,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
                     + " `[" + FormatUtil.formatTime(track.getPosition()) + "/" + FormatUtil.formatTime(track.getDuration()) + "]` "
                     + FormatUtil.volumeIcon(audioPlayer.getVolume()));
             
-            return mb.setEmbed(eb.build()).build();
+            return mb.setEmbeds(eb.build()).build();
         }
         else return null;
     }

@@ -16,8 +16,8 @@ public class BotConfig
 {
     private final Prompt prompt;
     private final static String CONTEXT = "Config";
-    private final static String START_TOKEN = "/// START OF JMUSICBOT CONFIG ///";
-    private final static String END_TOKEN = "/// END OF JMUSICBOT CONFIG ///";
+    private final static String START_TOKEN = "/// START OF GRYTHVY CONFIG ///";
+    private final static String END_TOKEN = "/// END OF GRYTHVY CONFIG ///";
     
     private Path path = null;
     private String token, prefix, altprefix, helpWord, playlistsFolder,
