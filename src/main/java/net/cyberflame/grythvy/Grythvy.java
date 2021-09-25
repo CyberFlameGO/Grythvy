@@ -11,8 +11,6 @@ import net.cyberflame.grythvy.commands.owner.*;
 import net.cyberflame.grythvy.entities.Prompt;
 import net.cyberflame.grythvy.gui.GUI;
 import net.cyberflame.grythvy.settings.SettingsManager;
-import net.cyberflame.grythvy.utils.OtherUtil;
-import java.awt.Color;
 import java.util.Arrays;
 import javax.security.auth.login.LoginException;
 

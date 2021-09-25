@@ -132,8 +132,8 @@ static private String bytesToString(byte[] ba, int str, int len) {
             textArea.append(val);
         });
         values.clear();
-        clear =false;
-        queue =true;
+        clear = false;
+        queue = true;
         }
     }
 }

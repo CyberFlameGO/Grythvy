@@ -31,8 +31,10 @@ public class GUI extends JFrame
         setVisible(true);
         addWindowListener(new WindowListener() 
         {
-            @Override public void windowOpened(WindowEvent e) { /* unused */ }
-            @Override public void windowClosing(WindowEvent e) 
+            @Override
+            public void windowOpened(WindowEvent e) { /* unused */ }
+            @Override
+            public void windowClosing(WindowEvent e)
             {
                 try
                 {
@@ -43,11 +45,16 @@ public class GUI extends JFrame
                     System.exit(0);
                 }
             }
-            @Override public void windowClosed(WindowEvent e) { /* unused */ }
-            @Override public void windowIconified(WindowEvent e) { /* unused */ }
-            @Override public void windowDeiconified(WindowEvent e) { /* unused */ }
-            @Override public void windowActivated(WindowEvent e) { /* unused */ }
-            @Override public void windowDeactivated(WindowEvent e) { /* unused */ }
+            @Override
+            public void windowClosed(WindowEvent e) { /* unused */ }
+            @Override
+            public void windowIconified(WindowEvent e) { /* unused */ }
+            @Override
+            public void windowDeiconified(WindowEvent e) { /* unused */ }
+            @Override
+            public void windowActivated(WindowEvent e) { /* unused */ }
+            @Override
+            public void windowDeactivated(WindowEvent e) { /* unused */ }
         });
     }
 }
