@@ -78,7 +78,6 @@ public class BotConfig
             playlistsFolder = config.getString("playlistsfolder");
             aliases = config.getConfig("aliases");
             transforms = config.getConfig("transforms");
-            dbots = owner == 113156185389092864L;
             
             // we may need to write a new config file
             boolean write = false;
@@ -145,7 +144,7 @@ public class BotConfig
         {
             bytes = original.substring(original.indexOf(START_TOKEN)+START_TOKEN.length(), original.indexOf(END_TOKEN))
                 .replace("BOT_TOKEN_HERE", token)
-                .replace("0 // OWNER ID", Long.toString(owner))
+                .replace("218977195375329281", Long.toString(owner))
                 .trim().getBytes();
         }
         try 
@@ -243,11 +242,6 @@ public class BotConfig
     public String getPlaylistsFolder()
     {
         return playlistsFolder;
-    }
-    
-    public boolean getDBots()
-    {
-        return dbots;
     }
     
     public boolean useUpdateAlerts()

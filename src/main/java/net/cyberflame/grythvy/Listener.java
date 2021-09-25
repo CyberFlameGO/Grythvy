@@ -30,7 +30,7 @@ public class Listener extends ListenerAdapter
     {
         if(event.getJDA().getGuildCache().isEmpty())
         {
-            Logger log = LoggerFactory.getLogger("MusicBot");
+            Logger log = LoggerFactory.getLogger("Grythvy");
             log.warn("This bot is not in any guilds! Use the following link to add the bot to your guilds!");
             log.warn(event.getJDA().getInviteUrl(Grythvy.RECOMMENDED_PERMS));
         }
