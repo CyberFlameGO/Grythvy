@@ -9,6 +9,7 @@ import net.cyberflame.grythvy.Grythvy;
 import net.cyberflame.grythvy.audio.AudioHandler;
 import net.cyberflame.grythvy.audio.QueuedTrack;
 import net.cyberflame.grythvy.commands.MusicCommand;
+import net.cyberflame.grythvy.settings.RepeatMode;
 import net.cyberflame.grythvy.settings.Settings;
 import net.cyberflame.grythvy.utils.FormatUtil;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -18,8 +19,6 @@ import net.dv8tion.jda.api.exceptions.PermissionException;
 
 public class QueueCmd extends MusicCommand 
 {
-    private final static String REPEAT = "\uD83D\uDD01"; // 🔁
-    
     private final Paginator.Builder builder;
     
     public QueueCmd(Bot bot)
@@ -85,7 +84,7 @@ public class QueueCmd extends MusicCommand
         builder.build().paginate(event.getChannel(), pagenum);
     }
     
-    private String getQueueTitle(AudioHandler ah, String success, int songslength, long total, boolean repeatmode)
+    private String getQueueTitle(AudioHandler ah, String success, int songslength, long total, RepeatMode repeatmode)
     {
         StringBuilder sb = new StringBuilder();
         if(ah.getPlayer().getPlayingTrack()!=null)
@@ -95,6 +94,6 @@ public class QueueCmd extends MusicCommand
         }
         return FormatUtil.filter(sb.append(success).append(" Current Queue | ").append(songslength)
                 .append(" entries | `").append(FormatUtil.formatTime(total)).append("` ")
-                .append(repeatmode ? "| " + REPEAT : "").toString());
+                .append(repeatmode.getEmoji() != null ? "| "+repeatmode.getEmoji() : "").toString());
     }
 }

@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.cyberflame.grythvy.Bot;
 import net.cyberflame.grythvy.settings.Settings;
+import net.cyberflame.grythvy.settings.RepeatMode;
 import net.cyberflame.grythvy.utils.FormatUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
@@ -40,7 +41,9 @@ public class SettingsCmd extends Command
                         + "\nVoice Channel: " + (vchan == null ? "Any" : "**" + vchan.getName() + "**")
                         + "\nDJ Role: " + (role == null ? "None" : "**" + role.getName() + "**")
                         + "\nCustom Prefix: " + (s.getPrefix() == null ? "None" : "`" + s.getPrefix() + "`")
-                        + "\nRepeat Mode: **" + (s.getRepeatMode() ? "On" : "Off") + "**"
+                        + "\nRepeat Mode: " + (s.getRepeatMode() == RepeatMode.OFF
+                                                ? s.getRepeatMode().getUserFriendlyName()
+                                                : "**"+s.getRepeatMode().getUserFriendlyName()+"**")
                         + "\nDefault Playlist: " + (s.getDefaultPlaylist() == null ? "None" : "**" + s.getDefaultPlaylist() + "**")
                         )
                 .setFooter(event.getJDA().getGuilds().size() + " servers | "

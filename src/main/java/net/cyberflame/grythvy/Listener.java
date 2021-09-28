@@ -51,9 +51,9 @@ public class Listener extends ListenerAdapter
         {
             bot.getThreadpool().scheduleWithFixedDelay(() -> 
             {
-                User owner = bot.getJDA().getUserById(bot.getConfig().getOwnerId());
-                if(owner!=null)
+                try
                 {
+                    User owner = bot.getJDA().retrieveUserById(bot.getConfig().getOwnerId()).complete();
                     String currentVersion = OtherUtil.getCurrentVersion();
                     String latestVersion = OtherUtil.getLatestVersion();
                     if(latestVersion!=null && !currentVersion.equalsIgnoreCase(latestVersion))
@@ -62,6 +62,7 @@ public class Listener extends ListenerAdapter
                         owner.openPrivateChannel().queue(pc -> pc.sendMessage(msg).queue());
                     }
                 }
+                catch(Exception ex) {} // ignored
             }, 0, 24, TimeUnit.HOURS);
         }
     }

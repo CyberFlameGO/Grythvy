@@ -1,6 +1,8 @@
 package net.cyberflame.grythvy.audio;
 
 import net.cyberflame.grythvy.Grythvy;
+import net.cyberflame.grythvy.playlist.PlaylistLoader.Playlist;
+import net.cyberflame.grythvy.settings.RepeatMode;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -137,10 +139,15 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) 
     {
+        RepeatMode repeatMode = manager.getBot().getSettingsManager().getSettings(guildId).getRepeatMode();
         // if the track ended normally, and we're in repeat mode, re-add it to the queue
-        if(endReason==AudioTrackEndReason.FINISHED && manager.getBot().getSettingsManager().getSettings(guildId).getRepeatMode())
+        if(endReason==AudioTrackEndReason.FINISHED && repeatMode != RepeatMode.OFF)
         {
-            queue.add(new QueuedTrack(track.makeClone(), track.getUserData(RequestMetadata.class)));
+            QueuedTrack clone = new QueuedTrack(track.makeClone(), track.getUserData(RequestMetadata.class));
+            if(repeatMode == RepeatMode.ALL)
+                queue.add(clone);
+            else
+                queue.addAt(0, clone);
         }
         
         if(queue.isEmpty())

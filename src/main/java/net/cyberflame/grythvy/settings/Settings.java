@@ -16,11 +16,11 @@ public class Settings implements GuildSettingsProvider
     protected long roleId;
     private int volume;
     private String defaultPlaylist;
-    private boolean repeatMode;
+    private RepeatMode repeatMode;
     private String prefix;
     private double skipRatio;
-    
-    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, String defaultPlaylist, boolean repeatMode, String prefix, double skipRatio)
+
+    public Settings(SettingsManager manager, String textId, String voiceId, String roleId, int volume, String defaultPlaylist, RepeatMode repeatMode, String prefix, double skipRatio)
     {
         this.manager = manager;
         try
@@ -54,7 +54,7 @@ public class Settings implements GuildSettingsProvider
         this.skipRatio = skipRatio;
     }
     
-    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, String defaultPlaylist, boolean repeatMode, String prefix, double skipRatio)
+    public Settings(SettingsManager manager, long textId, long voiceId, long roleId, int volume, String defaultPlaylist, RepeatMode repeatMode, String prefix, double skipRatio)
     {
         this.manager = manager;
         this.textId = textId;
@@ -93,7 +93,7 @@ public class Settings implements GuildSettingsProvider
         return defaultPlaylist;
     }
     
-    public boolean getRepeatMode()
+    public RepeatMode getRepeatMode()
     {
         return repeatMode;
     }
@@ -107,7 +107,7 @@ public class Settings implements GuildSettingsProvider
     {
         return skipRatio;
     }
-    
+
     @Override
     public Collection<String> getPrefixes()
     {
@@ -145,7 +145,7 @@ public class Settings implements GuildSettingsProvider
         this.manager.writeSettings();
     }
     
-    public void setRepeatMode(boolean mode)
+    public void setRepeatMode(RepeatMode mode)
     {
         this.repeatMode = mode;
         this.manager.writeSettings();
@@ -156,7 +156,7 @@ public class Settings implements GuildSettingsProvider
         this.prefix = prefix;
         this.manager.writeSettings();
     }
-    
+
     public void setSkipRatio(double skipRatio)
     {
         this.skipRatio = skipRatio;
