@@ -38,28 +38,6 @@ public class LyricsClient
 
     /**
      * Constructs a new {@link LyricsClient}, specifying the default source
-     * for lyrics
-     *
-     * @param defaultSource the default source for lyrics
-     */
-    public LyricsClient(String defaultSource)
-    {
-        this(defaultSource, null);
-    }
-
-    /**
-     * Constructs a new {@link LyricsClient}, specifying an {@link Executor}
-     * to be used for making {@link CompletableFuture}s
-     *
-     * @param executor the executor to use internally
-     */
-    public LyricsClient(Executor executor)
-    {
-        this(null, executor);
-    }
-
-    /**
-     * Constructs a new {@link LyricsClient}, specifying the default source
      * for lyrics as well as an {@link Executor} to be used for making
      * {@link CompletableFuture}s
      *

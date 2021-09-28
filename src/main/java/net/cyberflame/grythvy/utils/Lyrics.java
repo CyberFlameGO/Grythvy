@@ -53,13 +53,4 @@ public class Lyrics
         return url;
     }
 
-    /**
-     * The source that was used to find these lyrics
-     *
-     * @return the source that was used to find these lyrics
-     */
-    public String getSource()
-    {
-        return source;
-    }
 }
