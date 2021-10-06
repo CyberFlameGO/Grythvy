@@ -3,12 +3,6 @@ package net.cyberflame.grythvy.utils;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
@@ -18,6 +12,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Element;
 import org.jsoup.safety.Safelist;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class LyricsClient
 {
@@ -38,27 +39,30 @@ public class LyricsClient
     }
 
     /**
-     * Constructs a new {@link LyricsClient}, specifying the default source
-     * for lyrics as well as an {@link Executor} to be used for making
-     * {@link CompletableFuture}s
+     * Constructs a new {@link LyricsClient}, specifying the default source for lyrics as well as an {@link Executor} to
+     * be used for making {@link CompletableFuture}s
      *
-     * @param defaultSource the default source for lyrics
-     * @param executor the executor to use internally
+     * @param defaultSource
+     *         the default source for lyrics
+     * @param executor
+     *         the executor to use internally
      */
     public LyricsClient(String defaultSource, Executor executor)
     {
         this.defaultSource = defaultSource == null ? config.getString("lyrics.default") : defaultSource;
-        this.userAgent = config.getString("lyrics.user-agent");
-        this.timeout = config.getInt("lyrics.timeout");
-        this.executor = executor == null ? Executors.newCachedThreadPool() : executor;
+        this.userAgent     = config.getString("lyrics.user-agent");
+        this.timeout       = config.getInt("lyrics.timeout");
+        this.executor      = executor == null ? Executors.newCachedThreadPool() : executor;
     }
 
     /**
-     * Gets the lyrics for the provided search from the default source. To get lyrics
-     * asynchronously, call {@link CompletableFuture#thenAccept(java.util.function.Consumer)}.
-     * To block and return lyrics, use {@link CompletableFuture#get()}.
+     * Gets the lyrics for the provided search from the default source. To get lyrics asynchronously, call {@link
+     * CompletableFuture#thenAccept(java.util.function.Consumer)}. To block and return lyrics, use {@link
+     * CompletableFuture#get()}.
      *
-     * @param search the song info to search for
+     * @param search
+     *         the song info to search for
+     *
      * @return a {@link CompletableFuture} to access the lyrics. The Lyrics object may be null if no lyrics were found.
      */
     public CompletableFuture<Lyrics> getLyrics(String search)
@@ -67,18 +71,21 @@ public class LyricsClient
     }
 
     /**
-     * Gets the lyrics for the provided search from the provided source. To get lyrics
-     * asynchronously, call {@link CompletableFuture#thenAccept(java.util.function.Consumer)}.
-     * To block and return lyrics, use {@link CompletableFuture#get()}.
+     * Gets the lyrics for the provided search from the provided source. To get lyrics asynchronously, call {@link
+     * CompletableFuture#thenAccept(java.util.function.Consumer)}. To block and return lyrics, use {@link
+     * CompletableFuture#get()}.
      *
-     * @param search the song info to search for
-     * @param source the source to use (must be defined in config)
+     * @param search
+     *         the song info to search for
+     * @param source
+     *         the source to use (must be defined in config)
+     *
      * @return a {@link CompletableFuture} to access the lyrics. The Lyrics object may be null if no lyrics were found.
      */
     public CompletableFuture<Lyrics> getLyrics(String search, String source)
     {
         String cacheKey = source + "||" + search;
-        if(cache.containsKey(cacheKey))
+        if (cache.containsKey(cacheKey))
             return CompletableFuture.completedFuture(cache.get(cacheKey));
         try
             {
@@ -93,10 +100,14 @@ public class LyricsClient
                                                          try
                                                              {
                                                                  Document doc;
-                                                                 Connection connection = Jsoup.connect(searchUrl).userAgent(userAgent).timeout(timeout);
-                                                                 if(jsonSearch)
+                                                                 Connection connection =
+                                                                         Jsoup.connect(searchUrl).userAgent(userAgent)
+                                                                              .timeout(timeout);
+                                                                 if (jsonSearch)
                                                                      {
-                                                                         String body = connection.ignoreContentType(true).execute().body();
+                                                                         String body =
+                                                                                 connection.ignoreContentType(true)
+                                                                                           .execute().body();
                                                                          JSONObject json = new JSONObject(body);
                                                                          doc = Jsoup.parse(XML.toString(json));
                                                                      }
@@ -106,7 +117,7 @@ public class LyricsClient
                                                                  Element urlElement = doc.selectFirst(select);
                                                                  String url;
                                                                  assert urlElement != null;
-                                                                 if(jsonSearch)
+                                                                 if (jsonSearch)
                                                                      {
                                                                          url = urlElement.text();
                                                                      }
@@ -114,9 +125,10 @@ public class LyricsClient
                                                                      {
                                                                          url = urlElement.attr("abs:href");
                                                                      }
-                                                                 if(url.isEmpty())
+                                                                 if (url.isEmpty())
                                                                      return null;
-                                                                 doc = Jsoup.connect(url).userAgent(userAgent).timeout(timeout).get();
+                                                                 doc = Jsoup.connect(url).userAgent(userAgent)
+                                                                            .timeout(timeout).get();
                                                                  Lyrics lyrics = new Lyrics(Objects.requireNonNull(
                                                                          doc.selectFirst(titleSelector)).ownText(),
                                                                                             Objects.requireNonNull(
@@ -132,17 +144,18 @@ public class LyricsClient
                                                                  cache.put(cacheKey, lyrics);
                                                                  return lyrics;
                                                              }
-                                                         catch(IOException | NullPointerException | JSONException ex)
+                                                         catch (IOException | NullPointerException | JSONException ex)
                                                              {
                                                                  return null;
                                                              }
                                                          }, executor);
             }
-        catch(ConfigException ex)
+        catch (ConfigException ex)
             {
-                throw new IllegalArgumentException(String.format("Source '%s' does not exist or is not configured correctly", source));
+                throw new IllegalArgumentException(
+                        String.format("Source '%s' does not exist or is not configured correctly", source));
             }
-        catch(Exception ignored)
+        catch (Exception ignored)
             {
                 return null;
             }
