@@ -15,6 +15,7 @@ import org.jsoup.safety.Safelist;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -92,9 +93,6 @@ public class LyricsClient
                 String searchUrl = String.format(config.getString("lyrics." + source + ".search.url"), search);
                 boolean jsonSearch = config.getBoolean("lyrics." + source + ".search.json");
                 String select = config.getString("lyrics." + source + ".search.select");
-                String titleSelector = config.getString("lyrics." + source + ".parse.title");
-                String authorSelector = config.getString("lyrics." + source + ".parse.author");
-                String contentSelector = config.getString("lyrics." + source + ".parse.content");
                 return CompletableFuture.supplyAsync(() ->
                                                          {
                                                          try
@@ -116,31 +114,31 @@ public class LyricsClient
 
                                                                  Element urlElement = doc.selectFirst(select);
                                                                  String url;
-                                                                 assert urlElement != null;
                                                                  if (jsonSearch)
                                                                      {
+                                                                         assert urlElement != null;
                                                                          url = urlElement.text();
                                                                      }
                                                                  else
                                                                      {
+                                                                         assert urlElement != null;
                                                                          url = urlElement.attr("abs:href");
                                                                      }
                                                                  if (url.isEmpty())
                                                                      return null;
                                                                  doc = Jsoup.connect(url).userAgent(userAgent)
                                                                             .timeout(timeout).get();
-                                                                 Lyrics lyrics = new Lyrics(Objects.requireNonNull(
-                                                                         doc.selectFirst(titleSelector)).ownText(),
-                                                                                            Objects.requireNonNull(
-                                                                                                           doc.selectFirst(
-                                                                                                                   authorSelector))
-                                                                                                   .ownText(),
-                                                                                            cleanWithNewlines(
-                                                                                                    Objects.requireNonNull(
-                                                                                                            doc.selectFirst(
-                                                                                                                    contentSelector))),
-                                                                                            url,
-                                                                                            source);
+                                                                 Lyrics lyrics = new Lyrics(
+                                                                         Objects.requireNonNull(parseAlternatives("title", source,
+                                                                                                   doc)).ownText(),
+                                                                         Objects.requireNonNull(parseAlternatives("author", source,
+                                                                                           doc)).ownText(),
+                                                                         cleanWithNewlines(
+                                                                                 Objects.requireNonNull(parseAlternatives("content",
+                                                                                                       source,
+                                                                                                   doc))),
+                                                                         url,
+                                                                         source);
                                                                  cache.put(cacheKey, lyrics);
                                                                  return lyrics;
                                                              }
@@ -159,6 +157,18 @@ public class LyricsClient
             {
                 return null;
             }
+    }
+
+    private Element parseAlternatives(String key, String source, Document doc)
+    {
+        List<String> titleSelectors = config.getStringList("lyrics." + source + ".parse." + key);
+        for (String selector : titleSelectors)
+            {
+                Element element = doc.selectFirst(selector);
+                if (element != null)
+                    return element;
+            }
+        return null;
     }
 
     private String cleanWithNewlines(Element element)
