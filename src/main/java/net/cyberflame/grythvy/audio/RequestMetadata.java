@@ -10,30 +10,25 @@ public class RequestMetadata
     
     public RequestMetadata(User user)
     {
-        this.user = user == null ? null : new UserInfo(user.getIdLong(), user.getName(), user.getDiscriminator(), user.getEffectiveAvatarUrl());
+        this.user = user == null ? null :
+                new UserInfo(user.getIdLong(), user.getName(), user.getDiscriminator(), user.getEffectiveAvatarUrl());
     }
     
     public long getOwner()
     {
         return user == null ? 0L : user.id;
     }
-    
-    public class RequestInfo
+
+    public record RequestInfo(String query, String url)
     {
-        public final String query, url;
-        
-        private RequestInfo(String query, String url)
-        {
-            this.query = query;
-            this.url = url;
-        }
     }
-    
-    public class UserInfo
+
+    @SuppressWarnings("ClassCanBeRecord")
+    public static class UserInfo
     {
         public final long id;
         public final String username, discrim, avatar;
-        
+
         private UserInfo(long id, String username, String discrim, String avatar)
         {
             this.id = id;

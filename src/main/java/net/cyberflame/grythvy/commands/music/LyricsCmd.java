@@ -29,6 +29,7 @@ public class LyricsCmd extends MusicCommand
         if(event.getArgs().isEmpty())
         {
             AudioHandler sendingHandler = (AudioHandler) event.getGuild().getAudioManager().getSendingHandler();
+            assert sendingHandler != null;
             if (sendingHandler.isMusicPlaying(event.getJDA()))
                 title = sendingHandler.getPlayer().getPlayingTrack().getInfo().title;
             else

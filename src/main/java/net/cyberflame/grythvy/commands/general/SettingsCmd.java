@@ -12,6 +12,8 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 
+import java.util.Objects;
+
 public class SettingsCmd extends Command 
 {
     private final static String EMOJI = "\uD83C\uDFA7"; // 🎧
@@ -47,9 +49,14 @@ public class SettingsCmd extends Command
                         + "\nDefault Playlist: " + (s.getDefaultPlaylist() == null ? "None" : "**" + s.getDefaultPlaylist() + "**")
                         )
                 .setFooter(event.getJDA().getGuilds().size() + " servers | "
-                        + event.getJDA().getGuilds().stream().filter(g -> g.getSelfMember().getVoiceState().inVoiceChannel()).count()
+                        + event.getJDA().getGuilds().stream().filter(g -> Objects.requireNonNull(Objects
+                                                                                                         .requireNonNull(
+                                                                                                                 g
+                                                                                                                         .getSelfMember()
+                                                                                                                         .getVoiceState()))
+                                                                                 .inVoiceChannel()).count()
                         + " audio connections", null);
-        event.getChannel().sendMessage(builder.setEmbed(ebuilder.build()).build()).queue();
+        event.getChannel().sendMessage(builder.setEmbeds(ebuilder.build()).build()).queue();
     }
     
 }

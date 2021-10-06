@@ -23,6 +23,7 @@ public class VolumeCmd extends DJCommand
     {
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
         Settings settings = event.getClient().getSettingsFor(event.getGuild());
+        assert handler != null;
         int volume = handler.getPlayer().getVolume();
         if(event.getArgs().isEmpty())
         {

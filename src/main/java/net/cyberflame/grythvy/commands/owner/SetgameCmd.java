@@ -15,9 +15,9 @@ public class SetgameCmd extends OwnerCommand
         this.aliases = bot.getConfig().getAliases(this.name);
         this.guildOnly = false;
         this.children = new OwnerCommand[]{
-            new SetlistenCmd(),
-            new SetstreamCmd(),
-            new SetwatchCmd()
+                new SetlistenCmd(),
+                new SetstreamCmd(),
+                new SetwatchCmd()
         };
     }
     
@@ -37,7 +37,7 @@ public class SetgameCmd extends OwnerCommand
         }
     }
     
-    private class SetstreamCmd extends OwnerCommand
+    private static class SetstreamCmd extends OwnerCommand
     {
         private SetstreamCmd()
         {
@@ -70,7 +70,7 @@ public class SetgameCmd extends OwnerCommand
         }
     }
     
-    private class SetlistenCmd extends OwnerCommand
+    private static class SetlistenCmd extends OwnerCommand
     {
         private SetlistenCmd()
         {
@@ -100,7 +100,7 @@ public class SetgameCmd extends OwnerCommand
         }
     }
     
-    private class SetwatchCmd extends OwnerCommand
+    private static class SetwatchCmd extends OwnerCommand
     {
         private SetwatchCmd()
         {

@@ -56,6 +56,7 @@ public class MoveTrackCmd extends DJCommand
 
         // Validate that from and to are available
         AudioHandler handler = (AudioHandler) event.getGuild().getAudioManager().getSendingHandler();
+        assert handler != null;
         FairQueue<QueuedTrack> queue = handler.getQueue();
         if (isUnavailablePosition(queue, from))
         {

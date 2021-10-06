@@ -24,7 +24,7 @@ public class PlaylistCmd extends OwnerCommand
             new AppendlistCmd(),
             new DeletelistCmd(),
             new MakelistCmd(),
-            new DefaultlistCmd(bot)
+                new DefaultlistCmd(bot)
         };
     }
 
@@ -151,7 +151,7 @@ public class PlaylistCmd extends OwnerCommand
         }
     }
     
-    public class DefaultlistCmd extends AutoplaylistCmd 
+    public static class DefaultlistCmd extends AutoplaylistCmd
     {
         public DefaultlistCmd(Bot bot)
         {
@@ -183,7 +183,7 @@ public class PlaylistCmd extends OwnerCommand
                 event.reply(event.getClient().getWarning()+" Playlists folder does not exist and could not be created!");
                 return;
             }
-            List<String> list = bot.getPlaylistLoader().getPlaylistNames();
+            @SuppressWarnings("unchecked") List<String> list = bot.getPlaylistLoader().getPlaylistNames();
             if(list==null)
                 event.reply(event.getClient().getError()+" Failed to load available playlists!");
             else if(list.isEmpty())

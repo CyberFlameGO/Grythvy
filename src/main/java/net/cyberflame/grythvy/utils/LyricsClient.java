@@ -5,6 +5,7 @@ import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -104,16 +105,28 @@ public class LyricsClient
 
                                                                  Element urlElement = doc.selectFirst(select);
                                                                  String url;
+                                                                 assert urlElement != null;
                                                                  if(jsonSearch)
-                                                                     url = urlElement.text();
+                                                                     {
+                                                                         url = urlElement.text();
+                                                                     }
                                                                  else
-                                                                     url = urlElement.attr("abs:href");
-                                                                 if(url==null || url.isEmpty())
+                                                                     {
+                                                                         url = urlElement.attr("abs:href");
+                                                                     }
+                                                                 if(url.isEmpty())
                                                                      return null;
                                                                  doc = Jsoup.connect(url).userAgent(userAgent).timeout(timeout).get();
-                                                                 Lyrics lyrics = new Lyrics(doc.selectFirst(titleSelector).ownText(),
-                                                                                            doc.selectFirst(authorSelector).ownText(),
-                                                                                            cleanWithNewlines(doc.selectFirst(contentSelector)),
+                                                                 Lyrics lyrics = new Lyrics(Objects.requireNonNull(
+                                                                         doc.selectFirst(titleSelector)).ownText(),
+                                                                                            Objects.requireNonNull(
+                                                                                                           doc.selectFirst(
+                                                                                                                   authorSelector))
+                                                                                                   .ownText(),
+                                                                                            cleanWithNewlines(
+                                                                                                    Objects.requireNonNull(
+                                                                                                            doc.selectFirst(
+                                                                                                                    contentSelector))),
                                                                                             url,
                                                                                             source);
                                                                  cache.put(cacheKey, lyrics);

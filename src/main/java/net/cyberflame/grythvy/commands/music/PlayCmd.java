@@ -41,13 +41,15 @@ public class PlayCmd extends MusicCommand
         this.children = new Command[]{new PlaylistCmd(bot)};
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public void doCommand(CommandEvent event) 
     {
         if(event.getArgs().isEmpty() && event.getMessage().getAttachments().isEmpty())
         {
             AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
-            if(handler.getPlayer().getPlayingTrack()!=null && handler.getPlayer().isPaused())
+            assert handler != null;
+            if(handler.getPlayer().getPlayingTrack() != null && handler.getPlayer().isPaused())
             {
                 if(DJCommand.checkDJPermission(event))
                 {
@@ -85,6 +87,7 @@ public class PlayCmd extends MusicCommand
             this.ytsearch = ytsearch;
         }
         
+        @SuppressWarnings("DuplicatedCode")
         private void loadSingle(AudioTrack track, AudioPlaylist playlist)
         {
             if(bot.getConfig().isTooLong(track))
@@ -95,6 +98,7 @@ public class PlayCmd extends MusicCommand
                 return;
             }
             AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+            assert handler != null;
             int pos = handler.addTrack(new QueuedTrack(track, event.getAuthor())) + 1;
             String addMsg = FormatUtil.filter(event.getClient().getSuccess()+" Added **"+track.getInfo().title
                     +"** (`"+FormatUtil.formatTime(track.getDuration())+"`) "+(pos==0?"to begin playing":" to the queue at position "+pos));
@@ -123,10 +127,11 @@ public class PlayCmd extends MusicCommand
         private int loadPlaylist(AudioPlaylist playlist, AudioTrack exclude)
         {
             int[] count = {0};
-            playlist.getTracks().stream().forEach((track) -> {
+            playlist.getTracks().forEach((track) -> {
                 if(!bot.getConfig().isTooLong(track) && !track.equals(exclude))
                 {
                     AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+                    assert handler != null;
                     handler.addTrack(new QueuedTrack(track, event.getAuthor()));
                     count[0]++;
                 }
@@ -221,7 +226,11 @@ public class PlayCmd extends MusicCommand
             event.getChannel().sendMessage(loadingEmoji+" Loading playlist **"+event.getArgs()+"**... ("+playlist.getItems().size()+" items)").queue(m -> 
             {
                 AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
-                playlist.loadTracks(bot.getPlayerManager(), (at)->handler.addTrack(new QueuedTrack(at, event.getAuthor())), () -> {
+                playlist.loadTracks(bot.getPlayerManager(), (at)->
+                    {
+                    assert handler != null;
+                    handler.addTrack(new QueuedTrack(at, event.getAuthor()));
+                    }, () -> {
                     StringBuilder builder = new StringBuilder(playlist.getTracks().isEmpty() 
                             ? event.getClient().getWarning()+" No tracks were loaded!" 
                             : event.getClient().getSuccess()+" Loaded **"+playlist.getTracks().size()+"** tracks!");

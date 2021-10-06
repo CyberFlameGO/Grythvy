@@ -11,7 +11,7 @@ public class Prompt
     private final String noguiMessage;
     
     private boolean nogui;
-    private boolean noprompt;
+    private final boolean noprompt;
     private Scanner scanner;
     
     public Prompt(String title)
@@ -42,42 +42,26 @@ public class Prompt
         if(nogui)
         {
             Logger log = LoggerFactory.getLogger(context);
-            switch(level)
-            {
-                case INFO: 
-                    log.info(message); 
-                    break;
-                case WARNING: 
-                    log.warn(message); 
-                    break;
-                case ERROR: 
-                    log.error(message); 
-                    break;
-                default: 
-                    log.info(message); 
-                    break;
-            }
+            switch (level)
+                {
+                    case WARNING -> log.warn(message);
+                    case ERROR -> log.error(message);
+                    default -> log.info(message);
+                }
         }
         else
         {
             try 
             {
-                int option = 0;
-                switch(level)
-                {
-                    case INFO: 
-                        option = JOptionPane.INFORMATION_MESSAGE; 
-                        break;
-                    case WARNING: 
-                        option = JOptionPane.WARNING_MESSAGE; 
-                        break;
-                    case ERROR: 
-                        option = JOptionPane.ERROR_MESSAGE; 
-                        break;
-                    default:
-                        option = JOptionPane.PLAIN_MESSAGE;
-                        break;
-                }
+                int option = switch (level)
+                        {
+                            case INFO -> JOptionPane.INFORMATION_MESSAGE;
+                            case WARNING -> JOptionPane.WARNING_MESSAGE;
+                            case ERROR -> JOptionPane.ERROR_MESSAGE;
+                            //noinspection UnnecessaryDefault
+                            default -> JOptionPane.PLAIN_MESSAGE;
+                        };
+                //noinspection MagicConstant
                 JOptionPane.showMessageDialog(null, "<html><body><p style='width: 400px;'>"+message, title, option);
             }
             catch(Exception e) 
@@ -126,8 +110,8 @@ public class Prompt
         }
     }
     
-    public static enum Level
+    public enum Level
     {
-        INFO, WARNING, ERROR;
+        INFO, WARNING, ERROR
     }
 }

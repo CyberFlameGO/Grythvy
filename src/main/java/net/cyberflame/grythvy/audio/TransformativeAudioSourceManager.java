@@ -8,6 +8,7 @@ import com.typesafe.config.Config;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
@@ -49,7 +50,7 @@ public class TransformativeAudioSourceManager extends YoutubeAudioSourceManager
         {
             String url = ar.identifier.replaceAll(regex, replacement);
             Document doc = Jsoup.connect(url).get();
-            String value = doc.selectFirst(selector).ownText();
+            String value = Objects.requireNonNull(doc.selectFirst(selector)).ownText();
             String formattedValue = String.format(format, value);
             return super.loadItem(apm, new AudioReference(formattedValue, null));
         }
@@ -72,9 +73,10 @@ public class TransformativeAudioSourceManager extends YoutubeAudioSourceManager
     {
         try
         {
-            return transforms.root().entrySet().stream()
-                    .map(e -> new TransformativeAudioSourceManager(e.getKey(), transforms.getConfig(e.getKey())))
-                    .collect(Collectors.toList());
+            return transforms.root().keySet().stream()
+                             .map(configValue -> new TransformativeAudioSourceManager(configValue, transforms.getConfig(
+                                     configValue)))
+                             .collect(Collectors.toList());
         }
         catch (Exception ex)
         {

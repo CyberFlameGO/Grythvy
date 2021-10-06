@@ -5,7 +5,6 @@ import net.cyberflame.grythvy.Bot;
 import net.cyberflame.grythvy.audio.AudioHandler;
 import net.cyberflame.grythvy.audio.RequestMetadata;
 import net.cyberflame.grythvy.commands.DJCommand;
-import net.dv8tion.jda.api.entities.User;
 
 public class ForceskipCmd extends DJCommand
 {
@@ -22,6 +21,7 @@ public class ForceskipCmd extends DJCommand
     public void doCommand(CommandEvent event) 
     {
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+        assert handler != null;
         RequestMetadata rm = handler.getRequestMetadata();
         event.reply(event.getClient().getSuccess()+" Skipped **"+handler.getPlayer().getPlayingTrack().getInfo().title
                 +"** "+(rm.getOwner() == 0L ? "(autoplay)" : "(requested by **" + rm.user.username + "**)"));

@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ForceRemoveCmd extends DJCommand
@@ -37,6 +38,7 @@ public class ForceRemoveCmd extends DJCommand
         }
 
         AudioHandler handler = (AudioHandler) event.getGuild().getAudioManager().getSendingHandler();
+        assert handler != null;
         if (handler.getQueue().isEmpty())
         {
             event.replyError("There is nothing in the queue!");
@@ -87,7 +89,7 @@ public class ForceRemoveCmd extends DJCommand
 
     private void removeAllEntries(User target, CommandEvent event)
     {
-        int count = ((AudioHandler) event.getGuild().getAudioManager().getSendingHandler()).getQueue().removeAll(target.getIdLong());
+        int count = ((AudioHandler) Objects.requireNonNull(event.getGuild().getAudioManager().getSendingHandler())).getQueue().removeAll(target.getIdLong());
         if (count == 0)
         {
             event.replyWarning("**"+target.getName()+"** doesn't have any songs in the queue!");

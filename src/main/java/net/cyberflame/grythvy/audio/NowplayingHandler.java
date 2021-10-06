@@ -6,6 +6,7 @@ import net.cyberflame.grythvy.settings.Settings;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -31,7 +32,7 @@ public class NowplayingHandler
     public void init()
     {
         if(!bot.getConfig().useNPImages())
-            bot.getThreadpool().scheduleWithFixedDelay(() -> updateAll(), 0, 5, TimeUnit.SECONDS);
+            bot.getThreadpool().scheduleWithFixedDelay(this :: updateAll, 0, 5, TimeUnit.SECONDS);
     }
     
     public void setLastNPMessage(Message m)
@@ -63,6 +64,7 @@ public class NowplayingHandler
                 continue;
             }
             AudioHandler handler = (AudioHandler)guild.getAudioManager().getSendingHandler();
+            assert handler != null;
             Message msg = handler.getNowPlaying(bot.getJDA());
             if(msg==null)
             {
@@ -78,7 +80,7 @@ public class NowplayingHandler
                 toRemove.add(guildId);
             }
         }
-        toRemove.forEach(id -> lastNP.remove(id));
+        toRemove.forEach(lastNP :: remove);
     }
     
     public void updateTopic(long guildId, AudioHandler handler, boolean wait)
@@ -120,7 +122,8 @@ public class NowplayingHandler
         // update bot status if applicable
         if(bot.getConfig().getSongInStatus())
         {
-            if(track!=null && bot.getJDA().getGuilds().stream().filter(g -> g.getSelfMember().getVoiceState().inVoiceChannel()).count()<=1)
+            if(track!=null && bot.getJDA().getGuilds().stream().filter(g -> Objects
+                    .requireNonNull(g.getSelfMember().getVoiceState()).inVoiceChannel()).count() <= 1)
                 bot.getJDA().getPresence().setActivity(Activity.listening(track.getInfo().title));
             else
                 bot.resetGame();

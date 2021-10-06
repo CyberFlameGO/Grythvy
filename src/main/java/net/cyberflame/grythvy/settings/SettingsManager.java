@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("rawtypes")
 public class SettingsManager implements GuildSettingsManager
 {
     private final static double SKIP_RATIO = .55;
@@ -68,7 +69,7 @@ public class SettingsManager implements GuildSettingsManager
     protected void writeSettings()
     {
         JSONObject obj = new JSONObject();
-        settings.keySet().stream().forEach(key -> {
+        settings.keySet().forEach(key -> {
             JSONObject o = new JSONObject();
             Settings s = settings.get(key);
             if(s.textId!=0)

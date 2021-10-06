@@ -5,7 +5,8 @@ import net.cyberflame.grythvy.Bot;
 import net.cyberflame.grythvy.audio.AudioHandler;
 import net.cyberflame.grythvy.audio.RequestMetadata;
 import net.cyberflame.grythvy.commands.MusicCommand;
-import net.dv8tion.jda.api.entities.User;
+
+import java.util.Objects;
 
 public class SkipCmd extends MusicCommand 
 {
@@ -23,6 +24,7 @@ public class SkipCmd extends MusicCommand
     public void doCommand(CommandEvent event) 
     {
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+        assert handler != null;
         RequestMetadata rm = handler.getRequestMetadata();
         if(event.getAuthor().getIdLong() == rm.getOwner())
         {
@@ -31,8 +33,9 @@ public class SkipCmd extends MusicCommand
         }
         else
         {
-            int listeners = (int)event.getSelfMember().getVoiceState().getChannel().getMembers().stream()
-                    .filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened()).count();
+            int listeners = (int) Objects.requireNonNull(Objects.requireNonNull(event.getSelfMember().getVoiceState()).getChannel()).getMembers().stream()
+                                         .filter(m -> !m.getUser().isBot() && ! Objects
+                                                 .requireNonNull(m.getVoiceState()).isDeafened()).count();
             String msg;
             if(handler.getVotes().contains(event.getAuthor().getId()))
                 msg = event.getClient().getWarning()+" You already voted to skip this song `[";
@@ -41,9 +44,10 @@ public class SkipCmd extends MusicCommand
                 msg = event.getClient().getSuccess()+" You voted to skip the song `[";
                 handler.getVotes().add(event.getAuthor().getId());
             }
-            int skippers = (int)event.getSelfMember().getVoiceState().getChannel().getMembers().stream()
-                    .filter(m -> handler.getVotes().contains(m.getUser().getId())).count();
-            int required = (int)Math.ceil(listeners * bot.getSettingsManager().getSettings(event.getGuild()).getSkipRatio());
+            int skippers = (int) Objects.requireNonNull(event.getSelfMember().getVoiceState().getChannel()).getMembers().stream()
+                                        .filter(m -> handler.getVotes().contains(m.getUser().getId())).count();
+            int required = (int)Math.ceil(listeners * Objects
+                    .requireNonNull(bot.getSettingsManager().getSettings(event.getGuild())).getSkipRatio());
             msg += skippers + " votes, " + required + "/" + listeners + " needed]`";
             if(skippers>=required)
             {

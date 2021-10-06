@@ -2,15 +2,17 @@ package net.cyberflame.grythvy.utils;
 
 public class Lyrics
 {
-    private final String title, author, content, url, source;
+    private final String title;
+    private final String author;
+    private final String content;
+    private final String url;
 
-    protected Lyrics(String title, String author, String content, String url, String source)
+    protected Lyrics(String title, String author, String content, String url, @SuppressWarnings("unused") String source)
     {
         this.title = title;
         this.author = author;
         this.content = content;
         this.url = url;
-        this.source = source;
     }
 
     /**

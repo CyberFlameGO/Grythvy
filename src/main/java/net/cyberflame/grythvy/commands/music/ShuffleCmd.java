@@ -21,19 +21,14 @@ public class ShuffleCmd extends MusicCommand
     public void doCommand(CommandEvent event) 
     {
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+        assert handler != null;
         int s = handler.getQueue().shuffle(event.getAuthor().getIdLong());
-        switch (s) 
-        {
-            case 0:
-                event.replyError("You don't have any music in the queue to shuffle!");
-                break;
-            case 1:
-                event.replyWarning("You only have one song in the queue!");
-                break;
-            default:
-                event.replySuccess("You successfully shuffled your "+s+" entries.");
-                break;
-        }
+        switch (s)
+            {
+                case 0 -> event.replyError("You don't have any music in the queue to shuffle!");
+                case 1 -> event.replyWarning("You only have one song in the queue!");
+                default -> event.replySuccess("You successfully shuffled your " + s + " entries.");
+            }
     }
     
 }

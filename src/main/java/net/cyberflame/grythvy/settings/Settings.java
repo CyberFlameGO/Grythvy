@@ -111,6 +111,7 @@ public class Settings implements GuildSettingsProvider
     @Override
     public Collection<String> getPrefixes()
     {
+        //noinspection unchecked
         return prefix == null ? Collections.EMPTY_SET : Collections.singleton(prefix);
     }
     

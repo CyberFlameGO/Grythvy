@@ -26,16 +26,10 @@ public class FairQueueTest
             queue.add(new Q(0));
         assertEquals(queue.size(), size);
     }
-    
-    private class Q implements Queueable
+
+    private record Q(long identifier) implements Queueable
     {
-        private final long identifier;
-        
-        private Q(long identifier)
-        {
-            this.identifier = identifier;
-        }
-        
+
         @Override
         public long getIdentifier()
         {

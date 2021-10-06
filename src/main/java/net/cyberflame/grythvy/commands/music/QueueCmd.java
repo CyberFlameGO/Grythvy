@@ -52,6 +52,7 @@ public class QueueCmd extends MusicCommand
         }
         catch(NumberFormatException ignore){}
         AudioHandler ah = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+        assert ah != null;
         List<QueuedTrack> list = ah.getQueue().getList();
         if(list.isEmpty())
         {
@@ -59,7 +60,7 @@ public class QueueCmd extends MusicCommand
             Message nonowp = ah.getNoMusicPlaying(event.getJDA());
             Message built = new MessageBuilder()
                     .setContent(event.getClient().getWarning() + " There is no music in the queue!")
-                    .setEmbed((nowp==null ? nonowp : nowp).getEmbeds().get(0)).build();
+                    .setEmbeds((nowp == null ? nonowp : nowp).getEmbeds().get(0)).build();
             event.reply(built, m -> 
             {
                 if(nowp!=null)

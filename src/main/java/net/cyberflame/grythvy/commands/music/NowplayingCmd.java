@@ -22,6 +22,7 @@ public class NowplayingCmd extends MusicCommand
     public void doCommand(CommandEvent event) 
     {
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+        assert handler != null;
         Message m = handler.getNowPlaying(event.getJDA());
         if(m==null)
         {

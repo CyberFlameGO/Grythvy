@@ -17,6 +17,7 @@ public class PlaylistsCmd extends MusicCommand
         this.beListening = false;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public void doCommand(CommandEvent event) 
     {

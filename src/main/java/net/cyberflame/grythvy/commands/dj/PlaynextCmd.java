@@ -28,6 +28,7 @@ public class PlaynextCmd extends DJCommand
         this.bePlaying = false;
     }
     
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public void doCommand(CommandEvent event)
     {
@@ -55,6 +56,7 @@ public class PlaynextCmd extends DJCommand
             this.ytsearch = ytsearch;
         }
         
+        @SuppressWarnings("DuplicatedCode")
         private void loadSingle(AudioTrack track)
         {
             if(bot.getConfig().isTooLong(track))
@@ -65,6 +67,7 @@ public class PlaynextCmd extends DJCommand
                 return;
             }
             AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
+            assert handler != null;
             int pos = handler.addTrackToFront(new QueuedTrack(track, event.getAuthor())) + 1;
             String addMsg = FormatUtil.filter(event.getClient().getSuccess()+" Added **"+track.getInfo().title
                     +"** (`"+FormatUtil.formatTime(track.getDuration())+"`) "+(pos==0?"to begin playing":" to the queue at position "+pos));

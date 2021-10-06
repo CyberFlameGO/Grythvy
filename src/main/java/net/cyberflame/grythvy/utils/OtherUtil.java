@@ -1,13 +1,14 @@
 package net.cyberflame.grythvy.utils;
 
 import net.cyberflame.grythvy.Grythvy;
-import net.cyberflame.grythvy.entities.Prompt;
+
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -16,11 +17,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+@SuppressWarnings("ALL")
 public class OtherUtil
 {
-    public final static String NEW_VERSION_AVAILABLE = "There is a new version of Grythvy available!\n"
-                    + "Current version: %s\n"
-                    + "New Version: %s\n\n";
+    public final static String NEW_VERSION_AVAILABLE = """
+                                                       There is a new version of Grythvy available!
+                                                       Current version: %s
+                                                       New Version: %s
+
+                                                       """;
     private final static String WINDOWS_INVALID_PATH = "c:\\windows\\system32\\";
     
     /**
@@ -41,7 +46,10 @@ public class OtherUtil
             {
                 result = Paths.get(new File(Grythvy.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath() + File.separator + path);
             }
-            catch(URISyntaxException ex) {}
+            catch(URISyntaxException ex)
+                {
+                    ex.printStackTrace();
+                }
         }
         return result;
     }
@@ -55,7 +63,8 @@ public class OtherUtil
      */
     public static String loadResource(Object clazz, String name)
     {
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(clazz.getClass().getResourceAsStream(name))))
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(
+                Objects.requireNonNull(clazz.getClass().getResourceAsStream(name)))))
         {
             StringBuilder sb = new StringBuilder();
             reader.lines().forEach(line -> sb.append("\r\n").append(line));

@@ -7,6 +7,8 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import net.dv8tion.jda.api.entities.Guild;
 
+import java.util.Objects;
+
 public class PlayerManager extends DefaultAudioPlayerManager
 {
     private final Bot bot;
@@ -18,7 +20,8 @@ public class PlayerManager extends DefaultAudioPlayerManager
     
     public void init()
     {
-        TransformativeAudioSourceManager.createTransforms(bot.getConfig().getTransforms()).forEach(t -> registerSourceManager(t));
+        TransformativeAudioSourceManager.createTransforms(bot.getConfig().getTransforms()).forEach(
+                this :: registerSourceManager);
         AudioSourceManagers.registerRemoteSources(this);
         AudioSourceManagers.registerLocalSource(this);
         source(YoutubeAudioSourceManager.class).setPlaylistPageCount(10);
@@ -40,7 +43,7 @@ public class PlayerManager extends DefaultAudioPlayerManager
         if(guild.getAudioManager().getSendingHandler()==null)
         {
             AudioPlayer player = createPlayer();
-            player.setVolume(bot.getSettingsManager().getSettings(guild).getVolume());
+            player.setVolume(Objects.requireNonNull(bot.getSettingsManager().getSettings(guild)).getVolume());
             handler = new AudioHandler(this, guild, player);
             player.addListener(handler);
             guild.getAudioManager().setSendingHandler(handler);

@@ -5,6 +5,8 @@ import net.cyberflame.grythvy.Bot;
 import net.cyberflame.grythvy.audio.AudioHandler;
 import net.cyberflame.grythvy.commands.DJCommand;
 
+import java.util.Objects;
+
 public class SkiptoCmd extends DJCommand
 {
     public SkiptoCmd(Bot bot)
@@ -20,7 +22,7 @@ public class SkiptoCmd extends DJCommand
     @Override
     public void doCommand(CommandEvent event) 
     {
-        int index = 0;
+        int index;
         try
         {
             index = Integer.parseInt(event.getArgs());
@@ -31,9 +33,10 @@ public class SkiptoCmd extends DJCommand
             return;
         }
         AudioHandler handler = (AudioHandler)event.getGuild().getAudioManager().getSendingHandler();
-        if(index<1 || index>handler.getQueue().size())
+        if(index<1 || index > Objects.requireNonNull(handler).getQueue().size())
         {
-            event.reply(event.getClient().getError()+" Position must be a valid integer between 1 and "+handler.getQueue().size()+"!");
+            assert handler != null;
+            event.reply(event.getClient().getError() + " Position must be a valid integer between 1 and " + handler.getQueue().size() + "!");
             return;
         }
         handler.getQueue().skip(index-1);

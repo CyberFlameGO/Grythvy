@@ -1,17 +1,15 @@
 package net.cyberflame.grythvy.audio;
 
 import net.cyberflame.grythvy.Grythvy;
-import net.cyberflame.grythvy.playlist.PlaylistLoader.Playlist;
 import net.cyberflame.grythvy.settings.RepeatMode;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
+
 import net.cyberflame.grythvy.queue.FairQueue;
 import net.cyberflame.grythvy.settings.Settings;
 import net.cyberflame.grythvy.utils.FormatUtil;
@@ -27,7 +25,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 
-public class AudioHandler extends AudioEventAdapter implements AudioSendHandler 
+@SuppressWarnings("CommentedOutCode")
+public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
 {
     private final FairQueue<QueuedTrack> queue = new FairQueue<>();
     private final List<AudioTrack> defaultQueue = new LinkedList<>();
@@ -86,7 +85,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     
     public boolean isMusicPlaying(JDA jda)
     {
-        return guild(jda).getSelfMember().getVoiceState().inVoiceChannel() && audioPlayer.getPlayingTrack()!=null;
+        return Objects.requireNonNull(guild(jda).getSelfMember().getVoiceState()).inVoiceChannel() && audioPlayer.getPlayingTrack() != null;
     }
     
     public Set<String> getVotes()
@@ -185,7 +184,10 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             Guild guild = guild(jda);
             AudioTrack track = audioPlayer.getPlayingTrack();
             MessageBuilder mb = new MessageBuilder();
-            mb.append(FormatUtil.filter(manager.getBot().getConfig().getSuccess()+" **Now Playing in "+guild.getSelfMember().getVoiceState().getChannel().getAsMention()+"...**"));
+            mb.append(FormatUtil.filter(manager.getBot().getConfig().getSuccess() + " **Now Playing in " +
+                                        Objects.requireNonNull(
+                                                       Objects.requireNonNull(guild.getSelfMember().getVoiceState()).getChannel())
+                                               .getAsMention() + "...**"));
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(guild.getSelfMember().getColor());
             RequestMetadata rm = getRequestMetadata();
@@ -256,8 +258,8 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         }
         else return "No music playing " + Grythvy.STOP_EMOJI + " " + FormatUtil.volumeIcon(audioPlayer.getVolume());
     }
-    
-    // Audio Send Handler methods
+
+    /* Audio Send Handler methods */
     /*@Override
     public boolean canProvide() 
     {
