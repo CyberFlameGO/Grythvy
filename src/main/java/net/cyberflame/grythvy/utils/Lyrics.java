@@ -7,7 +7,7 @@ public class Lyrics
     private final String content;
     private final String url;
 
-    protected Lyrics(String title, String author, String content, String url, @SuppressWarnings("unused") String source)
+    Lyrics(String title, String author, String content, String url, @SuppressWarnings("unused") String source)
     {
         this.title = title;
         this.author = author;
