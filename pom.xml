@@ -2,10 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.cyberflame</groupId>
-    <artifactId>Grythvy</artifactId>
+    <artifactId>grythvy</artifactId>
+    <name>Grythvy</name>
     <version>Snapshot</version>
     <packaging>jar</packaging>
-    
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javaVersion>16</javaVersion>
+        <maven.compiler.source>${javaVersion}</maven.compiler.source>
+        <maven.compiler.target>${javaVersion}</maven.compiler.target>
+        <maven.compiler.release>${javaVersion}</maven.compiler.release>
+    </properties>
+
     <repositories>
         <repository>
             <id>dv8tion</id>
@@ -88,56 +97,67 @@
     </dependencies>
     
     <build>
-      <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.4</version>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                    <configuration>
-                        <shadedArtifactAttached>true</shadedArtifactAttached>
-                        <shadedClassifierName>All</shadedClassifierName>
-                        <artifactSet>
-                            <includes>
-                                <include>*:*</include>
-                            </includes>
-                        </artifactSet>
-                        <transformers>
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                <resource>reference.conf</resource>
-                            </transformer>
-                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                <manifestEntries>
-                                    <Main-Class>net.cyberflame.grythvy.Grythvy</Main-Class>
-                                    <Specification-Title>${project.artifactId}</Specification-Title>
-                                    <Specification-Version>${project.version}</Specification-Version>
-                                    <Implementation-Title>${project.artifactId}</Implementation-Title>
-                                    <Implementation-Version>${project.version}</Implementation-Version>
-                                    <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
-                                </manifestEntries>
-                            </transformer>
-                        </transformers>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
-        </plugin>
-      </plugins>
+        <finalName>${project.name}-${project.version}</finalName>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>*:*</include>
+                                </includes>
+                            </artifactSet>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>reference.conf</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>${project.groupId}.${project.artifactId}.Grythvy</Main-Class>
+                                        <Specification-Title>${project.name}</Specification-Title>
+                                        <Specification-Version>${project.version}</Specification-Version>
+                                        <Implementation-Title>${project.name}</Implementation-Title>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                        <Implementation-Vendor-Id>${project.groupId}</Implementation-Vendor-Id>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <target>
+                        <copy file="./target/${project.name}-${project.version}.jar" todir="../"/>
+                    </target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+        </plugins>
     </build>
-    
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-        <maven.compiler.release>16</maven.compiler.release>
-    </properties>
 </project>
