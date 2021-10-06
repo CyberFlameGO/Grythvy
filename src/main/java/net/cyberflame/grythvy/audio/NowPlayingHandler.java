@@ -18,12 +18,12 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 import net.dv8tion.jda.api.exceptions.RateLimitedException;
 
-public class NowplayingHandler
+public class NowPlayingHandler
 {
     private final Bot bot;
     private final HashMap<Long, Pair<Long,Long>> lastNP; // guild -> channel,message
     
-    public NowplayingHandler(Bot bot)
+    public NowPlayingHandler(Bot bot)
     {
         this.bot = bot;
         this.lastNP = new HashMap<>();

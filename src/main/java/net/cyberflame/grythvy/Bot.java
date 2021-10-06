@@ -5,7 +5,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import net.cyberflame.grythvy.audio.AloneInVoiceHandler;
 import net.cyberflame.grythvy.audio.AudioHandler;
-import net.cyberflame.grythvy.audio.NowplayingHandler;
+import net.cyberflame.grythvy.audio.NowPlayingHandler;
 import net.cyberflame.grythvy.audio.PlayerManager;
 import net.cyberflame.grythvy.gui.GUI;
 import net.cyberflame.grythvy.playlist.PlaylistLoader;
@@ -24,7 +24,7 @@ public class Bot
     private final SettingsManager settings;
     private final PlayerManager players;
     private final PlaylistLoader playlists;
-    private final NowplayingHandler nowplaying;
+    private final NowPlayingHandler nowplaying;
     private final AloneInVoiceHandler aloneInVoiceHandler;
     
     private boolean shuttingDown = false;
@@ -40,7 +40,7 @@ public class Bot
         this.threadpool = Executors.newSingleThreadScheduledExecutor();
         this.players = new PlayerManager(this);
         this.players.init();
-        this.nowplaying = new NowplayingHandler(this);
+        this.nowplaying = new NowPlayingHandler(this);
         this.nowplaying.init();
         this.aloneInVoiceHandler = new AloneInVoiceHandler(this);
         this.aloneInVoiceHandler.init();
@@ -76,7 +76,7 @@ public class Bot
         return playlists;
     }
     
-    public NowplayingHandler getNowplayingHandler()
+    public NowPlayingHandler getNowplayingHandler()
     {
         return nowplaying;
     }
