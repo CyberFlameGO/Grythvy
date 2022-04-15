@@ -144,7 +144,7 @@ public class OtherUtil
     {
         if(!System.getProperty("java.vm.name").contains("64"))
             prompt.alert(Prompt.Level.WARNING, "Java Version", 
-                    "It appears that you may not be using a supported Java version. Please use 64-bit java.");
+                    "It appears that you may not be using a supported Java version. Please use 64-bit Java.");
     }
     
     public static void checkVersion(Prompt prompt)
@@ -157,7 +157,7 @@ public class OtherUtil
         
         if(latestVersion!=null && !latestVersion.equals(version))
         {
-            prompt.alert(Prompt.Level.WARNING, "JMusicBot Version", String.format(NEW_VERSION_AVAILABLE, version, latestVersion));
+            prompt.alert(Prompt.Level.WARNING, "Grythvy Version", String.format(NEW_VERSION_AVAILABLE, version, latestVersion));
         }
     }
 

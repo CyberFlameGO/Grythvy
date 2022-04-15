@@ -151,7 +151,7 @@ public class BotConfig
     
     private static String loadDefaultConfig()
     {
-        String original = OtherUtil.loadResource(new JMusicBot(), "/reference.conf");
+        String original = OtherUtil.loadResource(new Grythvy(), "/reference.conf");
         return original==null 
                 ? "token = BOT_TOKEN_HERE\r\nowner = 0 // OWNER ID" 
                 : original.substring(original.indexOf(START_TOKEN)+START_TOKEN.length(), original.indexOf(END_TOKEN)).trim();
@@ -172,17 +172,17 @@ public class BotConfig
     public static void writeDefaultConfig()
     {
         Prompt prompt = new Prompt(null, null, true, true);
-        prompt.alert(Prompt.Level.INFO, "JMusicBot Config", "Generating default config file");
+        prompt.alert(Prompt.Level.INFO, "Grythvy Config", "Generating default config file");
         Path path = BotConfig.getConfigPath();
         byte[] bytes = BotConfig.loadDefaultConfig().getBytes();
         try
         {
-            prompt.alert(Prompt.Level.INFO, "JMusicBot Config", "Writing default config file to " + path.toAbsolutePath().toString());
+            prompt.alert(Prompt.Level.INFO, "Grythvy Config", "Writing default config file to " + path.toAbsolutePath().toString());
             Files.write(path, bytes);
         }
         catch(Exception ex)
         {
-            prompt.alert(Prompt.Level.ERROR, "JMusicBot Config", "An error occurred writing the default config file: " + ex.getMessage());
+            prompt.alert(Prompt.Level.ERROR, "Grythvy Config", "An error occurred writing the default config file: " + ex.getMessage());
         }
     }
     
