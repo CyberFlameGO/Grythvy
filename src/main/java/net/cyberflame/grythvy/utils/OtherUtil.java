@@ -1,6 +1,7 @@
 package net.cyberflame.grythvy.utils;
 
 import net.cyberflame.grythvy.Grythvy;
+import net.cyberflame.grythvy.entities.Prompt;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -161,7 +162,7 @@ public class OtherUtil
         }
     }
 
- */
+ 
     
     public static String getCurrentVersion()
     {

@@ -11,6 +11,7 @@ import net.cyberflame.grythvy.commands.owner.*;
 import net.cyberflame.grythvy.entities.Prompt;
 import net.cyberflame.grythvy.gui.GUI;
 import net.cyberflame.grythvy.settings.SettingsManager;
+import net.cyberflame.grythvy.utils.OtherUtil;
 import java.util.Arrays;
 import javax.security.auth.login.LoginException;
 
@@ -23,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 public class Grythvy
 {
-    public final static Logger LOG = LoggerFactory.getLogger(JMusicBot.class);
+    public final static Logger LOG = LoggerFactory.getLogger(Grythvy.class);
     public final static Permission[] RECOMMENDED_PERMS = {Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_HISTORY, Permission.MESSAGE_ADD_REACTION,
                                 Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
                                 Permission.MANAGE_CHANNEL, Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
