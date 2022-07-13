@@ -3,6 +3,7 @@ package net.cyberflame.grythvy.audio;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.cyberflame.grythvy.queue.Queueable;
 import net.cyberflame.grythvy.utils.FormatUtil;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.api.entities.User;
 
 public class QueuedTrack implements Queueable
@@ -34,6 +35,9 @@ public class QueuedTrack implements Queueable
     @Override
     public String toString() 
     {
-        return "`[" + FormatUtil.formatTime(track.getDuration()) + "]` [**" + track.getInfo().title + "**]("+track.getInfo().uri+") - <@" + track.getUserData(RequestMetadata.class).getOwner() + ">";
+        String entry = "`[" + FormatUtil.formatTime(track.getDuration()) + "]` ";
+        AudioTrackInfo trackInfo = track.getInfo();
+        entry = entry + (trackInfo.uri.startsWith("http") ? "[**" + trackInfo.title + "**]("+trackInfo.uri+")" : "**" + trackInfo.title + "**");
+        return entry + " - <@" + track.getUserData(RequestMetadata.class).getOwner() + ">";
     }
 }
