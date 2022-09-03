@@ -10,8 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.LoggerFactory;
 
-@SuppressWarnings("rawtypes")
-public class SettingsManager implements GuildSettingsManager
+
+public class SettingsManager implements GuildSettingsManager<Settings>
 {
     private final static double SKIP_RATIO = .55;
     private final HashMap<Long,Settings> settings;
