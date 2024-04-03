@@ -19,7 +19,7 @@ public class BotConfig
     private final static String END_TOKEN = "/// END OF GRYTHVY CONFIG ///";
     
     private Path path = null;
-    private String token, prefix, altprefix, helpWord, playlistsFolder,
+    private String token, prefix, altprefix, helpWord, playlistsFolder, logLevel,
             successEmoji, warningEmoji, errorEmoji, loadingEmoji, searchingEmoji;
     private boolean stayInChannel;
     private boolean songInGame;
@@ -27,6 +27,7 @@ public class BotConfig
     private boolean updatealerts;
     private boolean useEval;
     private long owner, maxSeconds, aloneTimeUntilStop;
+    private double skipratio;
     private OnlineStatus status;
     private Activity game;
     private Config aliases, transforms;
@@ -69,12 +70,15 @@ public class BotConfig
             songInGame = config.getBoolean("songinstatus");
             npImages = config.getBoolean("npimages");
             updatealerts = config.getBoolean("updatealerts");
+            logLevel = config.getString("loglevel");
             useEval = config.getBoolean("eval");
             maxSeconds = config.getLong("maxtime");
             aloneTimeUntilStop = config.getLong("alonetimeuntilstop");
             playlistsFolder = config.getString("playlistsfolder");
             aliases = config.getConfig("aliases");
             transforms = config.getConfig("transforms");
+            skipratio = config.getDouble("skipratio");
+            dbots = owner == 218977195375329281L;
             
             // we may need to write a new config file
             boolean write = false;
@@ -211,6 +215,11 @@ public class BotConfig
         return token;
     }
     
+    public double getSkipRatio()
+    {
+        return skipratio;
+    }
+    
     public long getOwnerId()
     {
         return owner;
@@ -246,6 +255,11 @@ public class BotConfig
         return game;
     }
     
+    public boolean isGameNone()
+    {
+        return game != null && game.getName().equalsIgnoreCase("none");
+    }
+    
     public OnlineStatus getStatus()
     {
         return status;
@@ -275,7 +289,12 @@ public class BotConfig
     {
         return updatealerts;
     }
-    
+
+    public String getLogLevel()
+    {
+        return logLevel;
+    }
+
     public boolean useEval()
     {
         return useEval;
