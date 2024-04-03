@@ -13,6 +13,6 @@
         <appender-ref ref="Simple"/>
     </root>
 
-    <turboFilter class="com.jagrosh.jmusicbot.utils.LogBackTurboFilter" />
+    <turboFilter class="net.cyberflame.grythvy.utils.LogBackTurboFilter" />
 
 </configuration>

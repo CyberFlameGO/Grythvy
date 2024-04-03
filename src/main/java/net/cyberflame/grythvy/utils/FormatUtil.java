@@ -1,6 +1,6 @@
 package net.cyberflame.grythvy.utils;
 
-import com.jagrosh.jmusicbot.audio.RequestMetadata.UserInfo;
+import net.cyberflame.grythvy.audio.RequestMetadata.UserInfo;
 import java.util.List;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
