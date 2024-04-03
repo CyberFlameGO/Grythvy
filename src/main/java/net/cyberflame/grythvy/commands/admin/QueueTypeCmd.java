@@ -15,7 +15,7 @@
  */
 package net.cyberflame.grythvy.commands.admin;
 
-import net.cyberflame.grythvyies.command.CommandEvent;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import net.cyberflame.grythvy.Bot;
 import net.cyberflame.grythvy.audio.AudioHandler;
 import net.cyberflame.grythvy.commands.AdminCommand;

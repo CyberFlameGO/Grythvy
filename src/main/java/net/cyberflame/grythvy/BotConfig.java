@@ -78,7 +78,6 @@ public class BotConfig
             aliases = config.getConfig("aliases");
             transforms = config.getConfig("transforms");
             skipratio = config.getDouble("skipratio");
-            dbots = owner == 218977195375329281L;
             
             // we may need to write a new config file
             boolean write = false;
