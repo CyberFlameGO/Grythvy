@@ -1,8 +1,23 @@
-package net.cyberflame.grythvy;
+/*
+ * Copyright 2018 John Grosh (jagrosh)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.jagrosh.jmusicbot;
 
-import net.cyberflame.grythvy.entities.Prompt;
-import net.cyberflame.grythvy.utils.FormatUtil;
-import net.cyberflame.grythvy.utils.OtherUtil;
+import com.jagrosh.jmusicbot.entities.Prompt;
+import com.jagrosh.jmusicbot.utils.FormatUtil;
+import com.jagrosh.jmusicbot.utils.OtherUtil;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.typesafe.config.*;
 import java.io.IOException;
@@ -20,13 +35,11 @@ public class BotConfig
     
     private Path path = null;
     private String token, prefix, altprefix, helpWord, playlistsFolder, logLevel,
-            successEmoji, warningEmoji, errorEmoji, loadingEmoji, searchingEmoji;
-    private boolean stayInChannel;
-    private boolean songInGame;
-    private boolean npImages;
-    private boolean updatealerts;
-    private boolean useEval;
+            successEmoji, warningEmoji, errorEmoji, loadingEmoji, searchingEmoji,
+            evalEngine;
+    private boolean stayInChannel, songInGame, npImages, updatealerts, useEval, dbots;
     private long owner, maxSeconds, aloneTimeUntilStop;
+    private int maxYTPlaylistPages;
     private double skipratio;
     private OnlineStatus status;
     private Activity game;
@@ -72,7 +85,9 @@ public class BotConfig
             updatealerts = config.getBoolean("updatealerts");
             logLevel = config.getString("loglevel");
             useEval = config.getBoolean("eval");
+            evalEngine = config.getString("evalengine");
             maxSeconds = config.getLong("maxtime");
+            maxYTPlaylistPages = config.getInt("maxytplaylistpages");
             aloneTimeUntilStop = config.getLong("alonetimeuntilstop");
             playlistsFolder = config.getString("playlistsfolder");
             aliases = config.getConfig("aliases");
@@ -299,6 +314,11 @@ public class BotConfig
         return useEval;
     }
     
+    public String getEvalEngine()
+    {
+        return evalEngine;
+    }
+    
     public boolean useNPImages()
     {
         return npImages;
@@ -309,9 +329,14 @@ public class BotConfig
         return maxSeconds;
     }
     
+    public int getMaxYTPlaylistPages()
+    {
+        return maxYTPlaylistPages;
+    }
+    
     public String getMaxTime()
     {
-        return FormatUtil.formatTime(maxSeconds * 1000);
+        return TimeUtil.formatTime(maxSeconds * 1000);
     }
 
     public long getAloneTimeUntilStop()

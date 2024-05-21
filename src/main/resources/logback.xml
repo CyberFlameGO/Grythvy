@@ -13,6 +13,4 @@
         <appender-ref ref="Simple"/>
     </root>
 
-    <turboFilter class="net.cyberflame.grythvy.utils.LogBackTurboFilter" />
-
 </configuration>

@@ -1,10 +1,10 @@
 package net.cyberflame.grythvy.audio;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioItem;
 import com.sedmelluq.discord.lavaplayer.track.AudioReference;
 import com.typesafe.config.Config;
+import dev.lavalink.youtube.YoutubeAudioSourceManager;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;

@@ -5,8 +5,14 @@ import net.cyberflame.grythvy.queue.AbstractQueue;
 import net.cyberflame.grythvy.settings.QueueType;
 import net.cyberflame.grythvy.settings.RepeatMode;
 
+import net.cyberflame.grythvy.playlist.PlaylistLoader.Playlist;
+import net.cyberflame.grythvy.queue.AbstractQueue;
+import net.cyberflame.grythvy.settings.QueueType;
+import net.cyberflame.grythvy.utils.TimeUtil;
+import net.cyberflame.grythvy.settings.RepeatMode;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
@@ -32,6 +38,7 @@ import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("CommentedOutCode")
 public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
@@ -39,6 +46,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     public final static String PLAY_EMOJI  = "\u25B6"; // ▶
     public final static String PAUSE_EMOJI = "\u23F8"; // ⏸
     public final static String STOP_EMOJI  = "\u23F9"; // ⏹
+
 
     private final List<AudioTrack> defaultQueue = new LinkedList<>();
     private final Set<String> votes = new HashSet<>();
@@ -188,6 +196,11 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
     }
 
     @Override
+    public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+        LoggerFactory.getLogger("AudioHandler").error("Track " + track.getIdentifier() + " has failed to play", exception);
+    }
+
+    @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) 
     {
         votes.clear();
@@ -239,7 +252,7 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
             double progress = (double)audioPlayer.getPlayingTrack().getPosition()/track.getDuration();
             eb.setDescription(getStatusEmoji()
                     + " "+FormatUtil.progressBar(progress)
-                    + " `[" + FormatUtil.formatTime(track.getPosition()) + "/" + FormatUtil.formatTime(track.getDuration()) + "]` "
+                    + " `[" + TimeUtil.formatTime(track.getPosition()) + "/" + TimeUtil.formatTime(track.getDuration()) + "]` "
                     + FormatUtil.volumeIcon(audioPlayer.getVolume()));
             
             return mb.setEmbeds(eb.build()).build();
