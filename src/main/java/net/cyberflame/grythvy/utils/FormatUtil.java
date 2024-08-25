@@ -41,7 +41,7 @@ public class FormatUtil {
                 str.append("▬");
         return str.toString();
     }
-    
+
     public static String volumeIcon(int volume)
     {
         if(volume == 0)
@@ -52,7 +52,7 @@ public class FormatUtil {
             return "\uD83D\uDD09"; // 🔉
         return "\uD83D\uDD0A";     // 🔊
     }
-    
+
     public static String listOfTChannels(List<TextChannel> list, String query)
     {
         StringBuilder out = new StringBuilder(" Multiple text channels found matching \"" + query + "\":");
@@ -62,7 +62,7 @@ public class FormatUtil {
             out.append("\n**And ").append(list.size() - 6).append(" more...**");
         return out.toString();
     }
-    
+
     public static String listOfVChannels(List<VoiceChannel> list, String query)
     {
         StringBuilder out = new StringBuilder(" Multiple voice channels found matching \"" + query + "\":");
@@ -73,17 +73,17 @@ public class FormatUtil {
             out.append("\n**And ").append(list.size() - 6).append(" more...**");
         return out.toString();
     }
-    
+
     public static String listOfRoles(List<Role> list, String query)
     {
-        StringBuilder out = new StringBuilder(" Multiple text channels found matching \"" + query + "\":");
+        StringBuilder out = new StringBuilder(" Multiple roles found matching \"" + query + "\":");
         for(int i=0; i<6 && i<list.size(); i++)
             out.append("\n - ").append(list.get(i).getName()).append(" (ID:").append(list.get(i).getId()).append(")");
         if(list.size()>6)
             out.append("\n**And ").append(list.size() - 6).append(" more...**");
         return out.toString();
     }
-    
+
     public static String filter(String input)
     {
         return input.replace("\u202E","")
